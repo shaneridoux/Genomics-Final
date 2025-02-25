@@ -57,14 +57,14 @@ leukocyte_list <- lapply(seurat_list, function(obj) {
   subset(obj, subset = Ptprc > 0)
 })
 
-# RunCCA --> FindIntegrationAnchors
+######## RunCCA --> FindIntegrationAnchors
 anchors <- FindIntegrationAnchors(object.list = leukocyte_list, anchor.features = 2000)
 seurat_combined <- IntegrateData(anchorset = anchors)
 
 # Default assay should be the integrated one now
 DefaultAssay(seurat_combined) <- "integrated"
 
-# Scale PCA and tSNE
+########## Scale PCA and tSNE
 seurat_combined <- ScaleData(seurat_combined)
 seurat_combined <- RunPCA(seurat_combined, npcs = 30)
 ElbowPlot(seurat_combined) # I picked 15 cuz it seemed to flatten out there
